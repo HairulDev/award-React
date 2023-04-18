@@ -1,3 +1,4 @@
+import API from "configs/axios";
 import {
   CREATE,
   FETCH_ALL,
@@ -5,9 +6,6 @@ import {
   FETCH_BY,
   DELETE,
 } from "../../constants/actionTypes";
-
-import axios from "axios";
-const API = axios.create({ baseURL: process.env.REACT_APP_HOST });
 
 export const createCategory =
   (formData, successCB, failedCB) => async (dispatch) => {

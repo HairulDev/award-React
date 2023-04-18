@@ -26,7 +26,6 @@ import navItems from './menu';
 import CloseIcon from '@mui/icons-material/Close';
 import MuiInput from '@mui/material/Input';
 import Chip from '@mui/material/Chip';
-import Paper from '@mui/material/Paper';
 import { getItemBySearch } from 'store/actions/item';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
@@ -37,9 +36,6 @@ const ListItemChip = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-const Input = styled(MuiInput)`
-  width: 42px;
-`;
 const maxPrice = 500000;
 const startPoint = 10000;
 function DrawerAppBar(props) {
@@ -140,6 +136,9 @@ function DrawerAppBar(props) {
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
+    if (newValue <= 10000) {
+      setValue(startPoint);
+    }
   };
 
   const handleDrawerToggle = () => {
@@ -200,6 +199,7 @@ function DrawerAppBar(props) {
         <Button variant="outlined" color="primary"
           sx={{ textTransform: 'none', mt: 1, px: 1, py: 0.5, }}
           onClick={() => {
+            handleDeletePoint();
             setChipData([]);
             setCheckboxStates(false);
             setDisabledHandleDelete(false);
@@ -215,7 +215,7 @@ function DrawerAppBar(props) {
             <Typography variant="body1" fontWeight="bold" color="primary">IDR {convertToRupiah(value)}</Typography>
           </Box>
           <Slider
-            value={typeof value === 'number' ? value : 10000}
+            value={typeof value === 'number' && value >= 10000 ? value : 10000}
             onChange={handleSliderChange}
             valueLabelDisplay="auto"
             max={maxPrice}

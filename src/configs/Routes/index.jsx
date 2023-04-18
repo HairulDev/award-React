@@ -12,10 +12,10 @@ import viewItem from "pages/Admin/Item/viewItem";
 import createCategory from "pages/Admin/Category/createCategory";
 import createItem from "pages/Admin/Item/createItem";
 
-import NotFound from "pages/404";
 import Dashboard from 'pages/Dashboard';
 import User from 'pages/User';
 import Logout from 'components/molecules/Logout';
+import { NotFound } from 'components';
 
 
 const history = createBrowserHistory({

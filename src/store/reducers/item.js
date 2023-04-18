@@ -4,8 +4,6 @@ import {
   FETCH_BY,
   UPDATE,
   DELETE,
-  LIKE,
-  COMMENT,
 } from "../../constants/actionTypes";
 
 const initialState = { dataItemReducerAll: [], dataItemReducer: [] };
@@ -42,17 +40,6 @@ const itemReducer = (state = initialState, action) => {
         ...state,
       };
 
-    case LIKE:
-      return {
-        ...state,
-        dataItemReducer: action.payload,
-      };
-
-    case COMMENT:
-      return {
-        ...state,
-        dataItemReducer: action.payload,
-      };
 
     default:
       return state;

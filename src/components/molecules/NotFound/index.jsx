@@ -4,7 +4,7 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 
-function NotFound() {
+const NotFound = () => {
   return (
     <Container maxWidth="sm" sx={{ textAlign: 'center', mt: 8 }}>
       <Typography variant="h1" sx={{ fontWeight: 'bold', mb: 4 }} title={"404"} />

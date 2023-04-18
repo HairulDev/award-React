@@ -11,8 +11,6 @@ function User() {
     return (
         <Container spacing={2} maxWidth="sm">
             <Header />
-            <ToastContainer autoClose={8000} />
-
             <Card>
                 <UserPage />
             </Card>

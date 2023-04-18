@@ -15,18 +15,14 @@ function useQuery() {
 }
 
 function LandingPage() {
-  const user = useState(JSON.parse(localStorage.getItem('profile')));
   const dispatch = useDispatch();
-  const [data, setData] = useState();
 
   const location = useLocation();
   const searchPath = location.pathname;
   const query = useQuery();
-  const searchQuery = useParams;
   const page = query.get('page') || 1;
 
   const { dataItemReducerAll } = useSelector((state) => state.itemReducer);
-  console.log("dataItemReducerAll", dataItemReducerAll);
 
   useEffect(() => {
     dispatch(getAllItem(page));
