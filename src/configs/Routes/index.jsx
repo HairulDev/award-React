@@ -5,7 +5,6 @@ import { Router, Route, Switch, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import Auth from "pages/Auth/Auth";
-import AuthVerify from "pages/Auth/AuthVerify";
 
 import viewCategory from "pages/Admin/Category/viewCategory";
 import viewItem from "pages/Admin/Item/viewItem";
@@ -16,6 +15,7 @@ import Dashboard from 'pages/Dashboard';
 import User from 'pages/User';
 import Logout from 'components/molecules/Logout';
 import { NotFound } from 'components';
+import AuthVerify from 'pages/Auth/AuthVerify';
 
 
 const history = createBrowserHistory({

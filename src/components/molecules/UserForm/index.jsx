@@ -60,7 +60,7 @@ export default function UserForm() {
                 >
                     {dataUser ? (
                         <>
-                            <Avatar src={dataUser ? `${env.reactAppHost}/images/users/${dataUser?.account?.file}` : ""} />
+                            <Avatar src={dataUser ? `${env.reactAppHost}/images/users/${dataUser.account.file}` : ""} />
                             <Typography component="h1" variant="subtitle1" color="primary"> {dataUser?.account?.name} </Typography>
                             <Button variant="contained" color="error" onClick={() => deleteUserHandler(currentId)}>Delete Account</Button>
                         </>

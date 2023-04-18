@@ -5,8 +5,10 @@ import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastProperties } from "../../utils/toastProperties";
-import API from "configs/axios";
+import axios from "axios";
+import env from "configs/vars";
 import { Loading } from "components";
+const API = axios.create({ baseURL: env.reactAppHost });
 
 const AuthVerify = () => {
   const { token } = useParams();
@@ -18,8 +20,8 @@ const AuthVerify = () => {
         `/v1/auth/verifyReg?token=${token}`
       );
     }
-    fetchData();
     history.push("/auth");
+    fetchData();
     toast.success("Verification successfull", {
       toastProperties
     });
