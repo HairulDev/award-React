@@ -1,5 +1,7 @@
-import API from "configs/axios";
 import { AUTH, } from "../../constants/actionTypes";
+import axios from "axios";
+import env from "configs/vars";
+const API = axios.create({ baseURL: env.reactAppHost });
 
 export const signin = (formData, successCB, failedCB) => async (dispatch) => {
   API.post("/v1/auth/signin", formData)
