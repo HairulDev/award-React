@@ -9,12 +9,14 @@ import { Button, Card, Container, Grid } from "@mui/material";
 import env from "configs/vars";
 import Paginate from "components/molecules/Pagination";
 import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 function LandingPage() {
+  const user = JSON.parse(localStorage.getItem("profile"));
   const dispatch = useDispatch();
 
   const location = useLocation();
@@ -27,6 +29,12 @@ function LandingPage() {
   useEffect(() => {
     dispatch(getAllItem(page));
   }, [dispatch, page]);
+
+  const history = useHistory();
+  useEffect(() => {
+    if (!user?.result)
+      history.push("/auth");
+  }, [0]);
 
 
   return (

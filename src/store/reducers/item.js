@@ -4,9 +4,11 @@ import {
   FETCH_BY,
   UPDATE,
   DELETE,
+  FETCH_ALL_ITEM,
+  SAVE_FILTER,
 } from "../../constants/actionTypes";
 
-const initialState = { dataItemReducerAll: [], dataItemReducer: [] };
+const initialState = { dataItemReducerAll: [], dataItemReducer: [], filterHistory: [], };
 
 const itemReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -15,7 +17,7 @@ const itemReducer = (state = initialState, action) => {
       return {
         ...state,
       };
-    case FETCH_ALL:
+    case FETCH_ALL_ITEM:
       return {
         ...state,
         dataItemReducerAll: {
@@ -31,6 +33,10 @@ const itemReducer = (state = initialState, action) => {
           item: action.payload.item,
         },
       };
+
+    case SAVE_FILTER:
+      return { ...state, filterHistory: action.payload };
+
     case UPDATE:
       return {
         ...state,

@@ -1,33 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
-import MuiAppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import { CardMedia, Link } from '@mui/material';
+import {
+  AppBar as MuiAppBar, Box, Button, CardMedia, Checkbox, Chip, CssBaseline, Divider,
+  Drawer, FormControlLabel, FormGroup, IconButton, Link, List, ListItem, ListItemButton,
+  ListItemText, Slider, Toolbar, Typography
+} from "@mui/material";
 import FilterListIcon from '@mui/icons-material/FilterList';
-import icon from "../../../assets/images/icon.png";
-import Slider from '@mui/material/Slider';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import MuiInput from '@mui/material/Input';
-import Chip from '@mui/material/Chip';
-import { getItemBySearch } from 'store/actions/item';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import icon from "../../../assets/images/icon.png";
+
+import { filterHistorySave, getItemBySearch } from 'store/actions/item';
 import convertToRupiah from 'utils/formatCurrency';
 import env from 'configs/vars';
 
@@ -35,12 +22,11 @@ const ListItemChip = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-const maxPrice = 500000;
-const startPoint = 10000;
 
 function DrawerAppBar(props) {
 
   const { authData } = useSelector((state) => state.auth);
+  const { filterHistory } = useSelector((state) => state.itemReducer);
   const navItems = [{
     name: 'Home',
     url: `${env.publicUrl}`
@@ -58,20 +44,28 @@ function DrawerAppBar(props) {
     url: `${env.publicUrl}/logout`
   }];
 
+  const maxPrice = 500000;
+  const startPoint = filterHistory.value;
+  const initialsBoxStatesStore = filterHistory.checkboxStates;
+  const initialsBoxStates = {
+    allTypeChecked: false,
+    vouchersChecked: false,
+    productsChecked: false,
+    giftcardChecked: false,
+  }
+  const initialsBoxStatesAll = { ...initialsBoxStates, ...initialsBoxStatesStore }
   const { window } = props;
   const dispatch = useDispatch();
   const history = useHistory();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileOpen2, setMobileOpen2] = useState(false);
   const [value, setValue] = useState([startPoint]);
-  const [checkboxStates, setCheckboxStates] = useState({
-    allTypeChecked: false,
-    vouchersChecked: false,
-    productsChecked: false,
-    giftcardChecked: false,
-  });
+  const [checkboxStates, setCheckboxStates] = useState({ ...initialsBoxStatesAll });
+  const { giftcardChecked, productsChecked, vouchersChecked } = checkboxStates;
+
   const [chipData, setChipData] = useState([]);
   const [disabledHandleDelete, setDisabledHandleDelete] = useState(false);
+  console.log("checkboxStates====>>", checkboxStates);
 
   const handleChecked = (value, label) => {
     if (chipData.find((chip) => chip.key === value)) {
@@ -100,6 +94,15 @@ function DrawerAppBar(props) {
     }
   };
 
+  useEffect(() => {
+    if (checkboxStates.giftcardChecked === true) {
+      handleChecked(3, "Giftcard");
+    } if (checkboxStates.productsChecked === true) {
+      handleChecked(2, "Products");
+    } if (checkboxStates.vouchersChecked === true) {
+      handleChecked(1, "Vouchers");
+    }
+  }, []);
 
   const handleVouchersChange = (event) => {
     const checked = event.target.checked;
@@ -143,20 +146,21 @@ function DrawerAppBar(props) {
     setValue(startPoint);
   }
 
-
   const filterHandler = () => {
     let types = [];
     chipData.map((chip) => {
       types.push(chip.label)
     });
     dispatch(getItemBySearch(types, value))
+    dispatch(filterHistorySave(value, checkboxStates))
     history.push(`/search`);
   }
+  // console.log("filterHistory======>>>", filterHistory);
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
     if (newValue <= 10000) {
-      setValue(startPoint);
+      setValue(10000);
     }
   };
 
@@ -220,7 +224,8 @@ function DrawerAppBar(props) {
           onClick={() => {
             handleDeletePoint();
             setChipData([]);
-            setCheckboxStates(false);
+            setValue(10000);
+            setCheckboxStates({ ...initialsBoxStates });
             setDisabledHandleDelete(false);
           }
           }>
@@ -234,7 +239,7 @@ function DrawerAppBar(props) {
             <Typography variant="body1" fontWeight="bold" color="primary">IDR {convertToRupiah(value)}</Typography>
           </Box>
           <Slider
-            value={typeof value === 'number' && value >= 10000 ? value : 10000}
+            value={value}
             onChange={handleSliderChange}
             valueLabelDisplay="auto"
             max={maxPrice}
@@ -343,7 +348,6 @@ function DrawerAppBar(props) {
           }}
         >
           {drawer2}
-
         </Drawer>
       </Box>
     </Box>

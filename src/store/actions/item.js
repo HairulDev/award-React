@@ -1,12 +1,27 @@
 import API from "configs/axios";
 import {
   CREATE,
-  FETCH_ALL,
   UPDATE,
   FETCH_BY,
   DELETE,
+  FETCH_ALL_ITEM,
+  SAVE_FILTER,
 } from "../../constants/actionTypes";
 
+
+export const filterHistorySave =
+  (value, checkboxStates) => async (dispatch) => {
+    try {
+      const data = { value, checkboxStates };
+      console.log("data filterHistorySave===>>", data);
+      dispatch({
+        type: SAVE_FILTER,
+        payload: data
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
 export const createItem =
   (formData, successCB, failedCB) => async (dispatch) => {
@@ -50,12 +65,11 @@ export const updateItem =
 
 
 export const getItemBySearch = (type, value, successCB, failedCB) => async (dispatch) => {
-  console.log("getItemBySearch value", value);
   API.get(`/admin/getItemBySearch?type=${type}&maxPrice=${value}`)
     .then((response) => {
       const resAPI = response.data;
       dispatch({
-        type: FETCH_ALL,
+        type: FETCH_ALL_ITEM,
         payload: {
           item: resAPI.item,
         }
@@ -72,7 +86,7 @@ export const getAllItem = (page, successCB, failedCB) => async (dispatch) => {
     .then((response) => {
       const resAPI = response.data;
       dispatch({
-        type: FETCH_ALL,
+        type: FETCH_ALL_ITEM,
         payload: {
           item: resAPI.item,
           currentPage: resAPI.currentPage,

@@ -32,8 +32,10 @@ const Routes = () => {
                     <Route path="/logout" exact component={Logout} />
                     <Route path="/auth" exact component={Auth} />
 
+
                     <Route path="/authVerify/:token" component={AuthVerify} />
                     <Route path="/account/:currentId?" component={User} />
+
                     {/* admin */}
                     <Route path="/admin" exact component={() => <Redirect to="/admin/viewCategory" />} />
                     <Route path="/admin/viewCategory" component={viewCategory} />
