@@ -52,7 +52,11 @@ export default function Create() {
   const [form, setForm] = useState(initialState);
 
   const [fileName, setFileName] = useState();
-
+  console.log("dataCategoryReducer===>>", dataCategoryReducer);
+  console.log("dataItemReducer===>>", dataItemReducer);
+  useEffect(() => {
+    getAllCategories();
+  }, [dispatch])
 
   useEffect(() => {
     if (currentId) {
@@ -200,8 +204,8 @@ export default function Create() {
                       onChange={onChange}
                       value={form.categoryId}
                     >
-                      {dataCategoryReducer.category &&
-                        dataCategoryReducer.category.map((e) => {
+                      {dataCategoryReducer?.category &&
+                        dataCategoryReducer?.category.map((e) => {
                           return <option value={e._id}>{e.name}</option>;
                         })}
                     </NativeSelect>
