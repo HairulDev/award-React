@@ -13,10 +13,8 @@ export const createItem =
     const data = new FormData();
     data.append("title", formData.title);
     data.append("price", formData.price);
-    data.append("city", formData.city);
     data.append("categoryId", formData.categoryId);
     data.append("file", formData.file);
-    data.append("description", formData.description);
     API.post("/admin/item", data)
       .then((response) => {
         const resAPI = response.data;
@@ -29,8 +27,29 @@ export const createItem =
       });
   };
 
-export const getItemBySearch = (type, value, successCB, failedCB) => async (dispatch) => {
 
+export const updateItem =
+  (currentId, formData, successCB, failedCB) => async (dispatch) => {
+    const data = new FormData();
+    data.append("title", formData.title);
+    data.append("price", formData.price);
+    data.append("categoryId", formData.categoryId);
+    data.append("file", formData.file);
+    API.put(`/admin/item/${currentId}`, data)
+      .then((response) => {
+        const resAPI = response.data;
+        console.log("resAPI", resAPI);
+        dispatch({ type: UPDATE, payload: resAPI });
+        return successCB && successCB(resAPI);
+      })
+      .catch((err) => {
+
+        return failedCB && failedCB(err);
+      });
+  };
+
+
+export const getItemBySearch = (type, value, successCB, failedCB) => async (dispatch) => {
   console.log("getItemBySearch value", value);
   API.get(`/admin/getItemBySearch?type=${type}&maxPrice=${value}`)
     .then((response) => {
@@ -47,6 +66,7 @@ export const getItemBySearch = (type, value, successCB, failedCB) => async (disp
       return failedCB && failedCB(err);
     });
 };
+
 export const getAllItem = (page, successCB, failedCB) => async (dispatch) => {
   API.get(`/admin/item?page=${page}`)
     .then((response) => {
@@ -78,41 +98,6 @@ export const getItem = (currentId, successCB, failedCB) => async (dispatch) => {
     });
 };
 
-export const getItemImage =
-  (currentId, successCB, failedCB) => async (dispatch) => {
-    API.get(`/admin/item/show-image/${currentId}`)
-      .then((response) => {
-        const resAPI = response.data.item.imageId;
-        dispatch({ type: FETCH_BY, payload: resAPI });
-        return successCB && successCB(resAPI);
-      })
-      .catch((err) => {
-
-        return failedCB && failedCB(err);
-      });
-  };
-
-export const updateItem =
-  (currentId, formData, successCB, failedCB) => async (dispatch) => {
-    const data = new FormData();
-    data.append("title", formData.title);
-    data.append("price", formData.price);
-    data.append("city", formData.city);
-    data.append("categoryId", formData.categoryId);
-    data.append("file", formData.file);
-    data.append("description", formData.description);
-    API.put(`/admin/item/${currentId}`, data)
-      .then((response) => {
-        const resAPI = response.data;
-        console.log("resAPI", resAPI);
-        dispatch({ type: UPDATE, payload: resAPI });
-        return successCB && successCB(resAPI);
-      })
-      .catch((err) => {
-
-        return failedCB && failedCB(err);
-      });
-  };
 
 export const delItem = (id, successCB, failedCB) => async (dispatch) => {
   API.delete(`/admin/item/${id}/delete`)
@@ -126,17 +111,3 @@ export const delItem = (id, successCB, failedCB) => async (dispatch) => {
       return failedCB && failedCB(err);
     });
 };
-
-export const viewDetailItem =
-  (currentId, successCB, failedCB) => async (dispatch) => {
-    API.get(`/admin/item/show-detail-item/${currentId}`)
-      .then((response) => {
-        const resAPI = response.data;
-        dispatch({ type: FETCH_ALL, payload: resAPI });
-        return successCB && successCB(resAPI);
-      })
-      .catch((err) => {
-
-        return failedCB && failedCB(err);
-      });
-  };

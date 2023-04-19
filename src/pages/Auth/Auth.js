@@ -19,7 +19,7 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { Button } from 'components/atoms';
+import { Avatar, Button } from 'components/atoms';
 import Input from 'components/atoms/Input';
 import { signin, signup } from "../../store/actions/auth";
 import icon from "../../assets/images/icon.png";
@@ -33,22 +33,17 @@ const theme = createTheme();
 export default function SignUp() {
 
 
-  const { stateLocation } = useSelector((state) => state.auth);
-
-
   const initialState = {
     firstName: "",
     lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    coordinatUser: stateLocation,
     file: "",
   };
   const [form, setForm] = useState(initialState);
   const [fileName, setFileName] = useState();
   const [isSignup, setIsSignup] = useState(false);
-  const [disableSignUp, setDisableSignUp] = useState(false);
   const [disableSignIn, setDisableSignIn] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -64,25 +59,11 @@ export default function SignUp() {
     setShowPassword(false);
   };
 
-  useEffect(() => {
-    if (disableSignUp === false && disableSignIn === false) {
-      setDisableSignUp(false);
-      setDisableSignIn(false);
-    }
-  }, [0]);
-
-  useEffect(() => {
-    if (!errorPasswordMatch)
-      setDisableSignIn(true);
-    setDisableSignIn(false);
-  }, [form.email, form.password, form.confirmPassword]);
-
-
   //  submit form
   const handleSubmit = (e) => {
     e.preventDefault();
+    setDisableSignIn(true);
     if (isSignup) {
-      setDisableSignUp(true);
       dispatch(
         signup(
           form,
@@ -102,9 +83,7 @@ export default function SignUp() {
           }
         )
       );
-      setDisableSignUp(false);
     } else {
-      setDisableSignIn(true);
       dispatch(
         signin(
           form,
@@ -125,8 +104,8 @@ export default function SignUp() {
           }
         )
       );
-      setDisableSignIn(false);
     }
+    setDisableSignIn(false);
   }; // end submit form
 
   // checking match password
@@ -287,38 +266,24 @@ export default function SignUp() {
                   </>
                 )}
               </Grid>
-              {!isSignup ? (
-                <>
-                  <Button
-                    onClick={handleSubmit}
-                    type="submit"
-                    disabled={disableSignIn}
-                    fullWidth
-                    variant="contained"
-                    sx={{
-                      mt: 3, mb: 2, backgroundColor: '#29b6f7',
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: '#1d8bbc',
-                      },
-                      '&:focus': {
-                        boxShadow: '0 0 0 0.2rem rgba(0,200,255,.5)',
-                      },
-                    }}
-                    title={isSignup ? "Sign Up" : "Sign In"}
-                  />
-                </>
-              ) : (
-                <Button
-                  onClick={handleSubmit}
-                  type="submit"
-                  disabled={disableSignUp}
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  title={isSignup ? "Sign Up" : "Sign In"}
-                />
-              )}
+              <Button
+                onClick={handleSubmit}
+                type="submit"
+                disabled={disableSignIn}
+                fullWidth
+                variant="contained"
+                sx={{
+                  mt: 3, mb: 2, backgroundColor: '#29b6f7',
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: '#1d8bbc',
+                  },
+                  '&:focus': {
+                    boxShadow: '0 0 0 0.2rem rgba(0,200,255,.5)',
+                  },
+                }}
+                title={isSignup ? "Sign Up" : "Sign In"}
+              />
               <Grid container justifyContent="flex-end">
                 <Grid item xs={12} sm={6} textAlign='left'>
                   <Typography variant="subtitle1" onClick={switchMode}>

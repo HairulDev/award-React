@@ -1,7 +1,7 @@
 
 
 export const FETCH_BY = "FETCH_BY";
-export const FETCH_ALL_BOOKING_PAGE = "FETCH_ALL_PAGE";
+export const FETCH_ALL_CATEGORY = "FETCH_ALL_CATEGORY";
 export const FETCH_PAGE = "FETCH_PAGE";
 
 export const CREATE = "CREATE";

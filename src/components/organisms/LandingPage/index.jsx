@@ -43,7 +43,7 @@ function LandingPage() {
               dataItemReducerAll.item.map((item) => (
                 <CardItem
                   id={item._id}
-                  image={`${env.reactAppHost}/images/items/${item.imageId.imageUrl}`}
+                  image={item.imageId.imageUrl}
                   title={item.title}
                   price={item.price}
                   unit={item.unit}

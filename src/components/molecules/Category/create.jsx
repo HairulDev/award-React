@@ -63,7 +63,7 @@ export default function Create() {
           form,
           (res) => {
             toast.success(res?.message, toastProperties);
-            history.push("viewCategory");
+            history.push("/admin/viewCategory");
           },
           (error) => {
             toast.error(
@@ -142,17 +142,6 @@ export default function Create() {
                   />
                 </Grid>
               </Grid>
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  onChange={onChange}
-                  value={_id}
-                  name="_id"
-                  hidden
-                  required
-                  fullWidth
-                />
-              </Grid>
-
               <Button
                 onClick={handleSubmit}
                 type="submit"

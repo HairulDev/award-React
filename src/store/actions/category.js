@@ -5,6 +5,7 @@ import {
   UPDATE,
   FETCH_BY,
   DELETE,
+  FETCH_ALL_CATEGORY,
 } from "../../constants/actionTypes";
 
 export const createCategory =
@@ -27,7 +28,7 @@ export const getAllCategories = (successCB, failedCB) => async (dispatch) => {
   API.get("/admin/category")
     .then((response) => {
       const resAPI = response.data.category;
-      dispatch({ type: FETCH_ALL, payload: resAPI });
+      dispatch({ type: FETCH_ALL_CATEGORY, payload: resAPI });
       return successCB && successCB(resAPI);
     })
     .catch((err) => {

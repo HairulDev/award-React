@@ -29,7 +29,6 @@ import {
   getItem,
   updateItem,
 } from "store/actions/item";
-import { getAllCategories } from "store/actions/category";
 
 const theme = createTheme();
 
@@ -38,7 +37,8 @@ export default function Create() {
     _id: "",
     title: "",
     price: "",
-    categoryId: ""
+    city: "",
+    description: "",
   };
   const dispatch = useDispatch();
   const history = useHistory();
@@ -46,33 +46,38 @@ export default function Create() {
   const { currentId } = params;
   const [isCreate, setIsCreate] = useState(true);
 
-  const { dataItemReducer, } = useSelector((state) => state.itemReducer);
-  const { dataCategoryReducer } = useSelector((state) => state.categoryReducer);
+  const { dataItemReducer } = useSelector((state) => state.itemReducer);
+  const { dataItemReducerAll } = useSelector((state) => state.itemReducer);
 
   const [form, setForm] = useState(initialState);
+  const [dataCategory, setDataCategory] = useState([]);
 
   const [fileName, setFileName] = useState();
-
 
   useEffect(() => {
     if (currentId) {
       dispatch(getItem(currentId));
       setIsCreate(false);
+    } else {
+      dispatch(getAllItem());
     }
-  }, [dispatch, currentId]);
+  }, [dispatch]);
 
   useEffect(() => {
-    if (currentId)
+    if (currentId) {
       if (dataItemReducer) {
-        setForm({
-          _id: dataItemReducer.item._id,
-          title: dataItemReducer.item.title,
-          price: dataItemReducer.item.price,
-          categoryId: dataItemReducer.item.categoryId._id
-        });
+        setForm(dataItemReducer.item);
+        setDataCategory(dataItemReducer.category);
       }
-  }, [currentId, dataItemReducer]);
+    }
+  }, [dataItemReducer]);
 
+  useEffect(() => {
+    setDataCategory(dataItemReducerAll.category);
+  }, [dataItemReducerAll]);
+
+  const categId =
+    dataCategory && dataCategory.find((el) => el._id === form?.categoryId?._id);
 
   const onChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -114,6 +119,7 @@ export default function Create() {
             city: form?.city,
             categoryId: form?.categoryId,
             file: form?.file,
+            description: form?.description,
           },
           (res) => {
             toast.success(res?.message, toastProperties);
@@ -167,7 +173,7 @@ export default function Create() {
                 <Grid item xs={12} sm={12}>
                   <TextField
                     onChange={onChange}
-                    value={form.title}
+                    value={form?.title}
                     name="title"
                     required
                     fullWidth
@@ -178,11 +184,21 @@ export default function Create() {
                 <Grid item xs={12} sm={12}>
                   <TextField
                     onChange={onChange}
-                    value={form.price}
+                    value={form?.price}
                     name="price"
                     required
                     fullWidth
                     label="Price"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <TextField
+                    onChange={onChange}
+                    value={form?.city}
+                    name="city"
+                    required
+                    fullWidth
+                    label="City"
                   />
                 </Grid>
 
@@ -198,10 +214,10 @@ export default function Create() {
                       label="Category"
                       labelId="demo-simple-select-label"
                       onChange={onChange}
-                      value={form.categoryId}
+                      value={categId?._id}
                     >
-                      {dataCategoryReducer.category &&
-                        dataCategoryReducer.category.map((e) => {
+                      {dataCategory &&
+                        dataCategory.map((e) => {
                           return <option value={e._id}>{e.name}</option>;
                         })}
                     </NativeSelect>
@@ -234,6 +250,16 @@ export default function Create() {
                     sx={{ marginLeft: "-2rem", border: "none" }}
                     onChange={onChangeFile}
                     value={fileName}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <TextField
+                    onChange={onChange}
+                    value={form?._id}
+                    name="_id"
+                    style={{ display: "none", }}
+                    required
+                    fullWidth
                   />
                 </Grid>
               </Grid>

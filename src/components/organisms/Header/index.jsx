@@ -22,15 +22,14 @@ import Slider from '@mui/material/Slider';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import navItems from './menu';
 import CloseIcon from '@mui/icons-material/Close';
 import MuiInput from '@mui/material/Input';
 import Chip from '@mui/material/Chip';
 import { getItemBySearch } from 'store/actions/item';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import convertToRupiah from 'utils/formatCurrency';
-
+import env from 'configs/vars';
 
 const ListItemChip = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
@@ -38,7 +37,27 @@ const ListItemChip = styled('li')(({ theme }) => ({
 
 const maxPrice = 500000;
 const startPoint = 10000;
+
 function DrawerAppBar(props) {
+
+  const { authData } = useSelector((state) => state.auth);
+  const navItems = [{
+    name: 'Home',
+    url: `${env.publicUrl}`
+  },
+  {
+    name: 'Cards',
+    url: `${env.publicUrl}/cards`
+  },
+  {
+    name: 'Profile',
+    url: `${env.publicUrl}/account/${authData?.result._id}`
+  },
+  {
+    name: 'Logout',
+    url: `${env.publicUrl}/logout`
+  }];
+
   const { window } = props;
   const dispatch = useDispatch();
   const history = useHistory();

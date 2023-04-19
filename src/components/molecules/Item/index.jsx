@@ -36,8 +36,6 @@ export default function Item() {
     }
   }, [dataItemReducerAll]);
 
-  console.log("dataItem Item", dataItem);
-  console.log("dataItemReducerAll", dataItemReducerAll.item);
 
   const onDelete = (id) => {
     confirmAlert({

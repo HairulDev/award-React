@@ -1,5 +1,6 @@
 
 import env from 'configs/vars';
+import { useEffect } from 'react';
 
 const user = JSON.parse(localStorage.getItem('profile'));
 
