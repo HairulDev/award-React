@@ -17,6 +17,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastProperties } from "utils/toastProperties";
+import convertToRupiah from "utils/formatCurrency";
 
 export default function Item() {
   const history = useHistory();
@@ -99,8 +100,7 @@ export default function Item() {
                 <TableRow>
                   <TableCell>Title</TableCell>
                   <TableCell>Price</TableCell>
-                  <TableCell>Kategori</TableCell>
-                  <TableCell>City</TableCell>
+                  <TableCell>Category</TableCell>
                   <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
@@ -115,13 +115,10 @@ export default function Item() {
                         {row.title}
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {row.price}
+                        {convertToRupiah(row.price)}
                       </TableCell>
                       <TableCell component="th" scope="row">
                         {row.categoryId.name}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {row.city}
                       </TableCell>
                       <TableCell component="th" scope="row">
                         <Button

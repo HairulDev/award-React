@@ -26,7 +26,7 @@ import { toastProperties } from "utils/toastProperties";
 
 const theme = createTheme();
 
-export default function Create() {
+export default function CategoryForm() {
   const initialState = {
     _id: "",
     name: "",

@@ -33,7 +33,7 @@ import { getAllCategories } from "store/actions/category";
 
 const theme = createTheme();
 
-export default function Create() {
+export default function ItemForm() {
   const initialState = {
     _id: "",
     title: "",

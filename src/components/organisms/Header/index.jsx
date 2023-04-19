@@ -17,6 +17,7 @@ import icon from "../../../assets/images/icon.png";
 import { filterHistorySave, getItemBySearch } from 'store/actions/item';
 import convertToRupiah from 'utils/formatCurrency';
 import env from 'configs/vars';
+import { useLocation } from 'react-router-dom';
 
 const ListItemChip = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
@@ -27,7 +28,9 @@ function DrawerAppBar(props) {
 
   const { authData } = useSelector((state) => state.auth);
   const { filterHistory } = useSelector((state) => state.itemReducer);
-  const navItems = [{
+
+
+  const navItemsUser = [{
     name: 'Home',
     url: `${env.publicUrl}`
   },
@@ -38,6 +41,23 @@ function DrawerAppBar(props) {
   {
     name: 'Profile',
     url: `${env.publicUrl}/account/${authData?.result._id}`
+  },
+  {
+    name: 'Logout',
+    url: `${env.publicUrl}/logout`
+  }];
+
+  const navItemsAdmin = [{
+    name: 'Home',
+    url: `${env.publicUrl}`
+  },
+  {
+    name: 'Category',
+    url: `${env.publicUrl}/admin/viewCategory`
+  },
+  {
+    name: 'Item',
+    url: `${env.publicUrl}/admin/viewItem`
   },
   {
     name: 'Logout',
@@ -61,11 +81,25 @@ function DrawerAppBar(props) {
   const [mobileOpen2, setMobileOpen2] = useState(false);
   const [value, setValue] = useState([startPoint]);
   const [checkboxStates, setCheckboxStates] = useState({ ...initialsBoxStatesAll });
-  const { giftcardChecked, productsChecked, vouchersChecked } = checkboxStates;
 
   const [chipData, setChipData] = useState([]);
   const [disabledHandleDelete, setDisabledHandleDelete] = useState(false);
-  console.log("checkboxStates====>>", checkboxStates);
+
+  const location = useLocation();
+  const searchPath = location.pathname;
+  const path = searchPath.split("/")[1];
+  console.log("searchPath==>", searchPath);
+  console.log("path==>", path);
+
+  const [navItems, setNavItems] = useState(navItemsUser);
+
+  useEffect(() => {
+    if (path === "admin") {
+      setNavItems(navItemsAdmin);
+    } else {
+      setNavItems(navItemsUser);
+    }
+  }, [path])
 
   const handleChecked = (value, label) => {
     if (chipData.find((chip) => chip.key === value)) {
@@ -155,7 +189,6 @@ function DrawerAppBar(props) {
     dispatch(filterHistorySave(value, checkboxStates))
     history.push(`/search`);
   }
-  // console.log("filterHistory======>>>", filterHistory);
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);

@@ -1,6 +1,5 @@
 import {
   CREATE,
-  FETCH_BY,
   UPDATE,
   DELETE,
   FETCH_ALL_CATEGORY,
