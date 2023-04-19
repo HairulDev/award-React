@@ -52,11 +52,8 @@ export default function Create() {
   const [form, setForm] = useState(initialState);
 
   const [fileName, setFileName] = useState();
-  console.log("dataCategoryReducer===>>", dataCategoryReducer);
   console.log("dataItemReducer===>>", dataItemReducer);
-  useEffect(() => {
-    getAllCategories();
-  }, [dispatch])
+  console.log("dataCategoryReducer===>>", dataCategoryReducer);
 
   useEffect(() => {
     if (currentId) {
@@ -72,7 +69,7 @@ export default function Create() {
           _id: dataItemReducer.item._id,
           title: dataItemReducer.item.title,
           price: dataItemReducer.item.price,
-          categoryId: dataItemReducer.item.categoryId._id
+          categoryId: dataItemReducer.item.categoryId
         });
       }
   }, [currentId, dataItemReducer]);
@@ -204,8 +201,8 @@ export default function Create() {
                       onChange={onChange}
                       value={form.categoryId}
                     >
-                      {dataCategoryReducer?.category &&
-                        dataCategoryReducer?.category.map((e) => {
+                      {dataCategoryReducer &&
+                        dataCategoryReducer.map((e) => {
                           return <option value={e._id}>{e.name}</option>;
                         })}
                     </NativeSelect>

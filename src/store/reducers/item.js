@@ -1,11 +1,10 @@
 import {
   CREATE,
-  FETCH_ALL,
-  FETCH_BY,
   UPDATE,
   DELETE,
   FETCH_ALL_ITEM,
   SAVE_FILTER,
+  FETCH_BY_ITEM,
 } from "../../constants/actionTypes";
 
 const initialState = { dataItemReducerAll: [], dataItemReducer: [], filterHistory: [], };
@@ -26,7 +25,7 @@ const itemReducer = (state = initialState, action) => {
           numberOfPages: action.payload.numberOfPages,
         },
       };
-    case FETCH_BY:
+    case FETCH_BY_ITEM:
       return {
         ...state,
         dataItemReducer: {

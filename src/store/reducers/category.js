@@ -4,6 +4,7 @@ import {
   UPDATE,
   DELETE,
   FETCH_ALL_CATEGORY,
+  FETCH_BY_CATEGORY,
 } from "../../constants/actionTypes";
 
 const initialState = { dataCategoryReducer: [] };
@@ -19,7 +20,7 @@ const categoryReducer = (state = initialState, action) => {
         ...state,
         dataCategoryReducer: action.payload,
       };
-    case FETCH_BY:
+    case FETCH_BY_CATEGORY:
       return {
         ...state,
         dataCategoryReducer: action.payload,

@@ -2,10 +2,10 @@ import API from "configs/axios";
 import {
   CREATE,
   UPDATE,
-  FETCH_BY,
   DELETE,
   FETCH_ALL_ITEM,
   SAVE_FILTER,
+  FETCH_BY_ITEM,
 } from "../../constants/actionTypes";
 
 
@@ -101,10 +101,10 @@ export const getAllItem = (page, successCB, failedCB) => async (dispatch) => {
 };
 
 export const getItem = (currentId, successCB, failedCB) => async (dispatch) => {
-  API.get(`/admin/item/${currentId}`)
+  API.get(`/admin/itemById/${currentId}`)
     .then((response) => {
       const resAPI = response.data;
-      dispatch({ type: FETCH_BY, payload: resAPI });
+      dispatch({ type: FETCH_BY_ITEM, payload: resAPI });
       return successCB && successCB(resAPI);
     })
     .catch((err) => {

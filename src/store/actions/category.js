@@ -6,6 +6,7 @@ import {
   FETCH_BY,
   DELETE,
   FETCH_ALL_CATEGORY,
+  FETCH_BY_CATEGORY,
 } from "../../constants/actionTypes";
 
 export const createCategory =
@@ -42,7 +43,7 @@ export const getCategory =
     API.get(`/admin/categoryById/${currentId}`)
       .then((response) => {
         const resAPI = response.data.category;
-        dispatch({ type: FETCH_BY, payload: resAPI });
+        dispatch({ type: FETCH_BY_CATEGORY, payload: resAPI });
         return successCB && successCB(resAPI);
       })
       .catch((err) => {

@@ -35,7 +35,7 @@ export default function Item() {
       setDataItem(dataItemReducerAll.item);
     }
   }, [dataItemReducerAll]);
-
+  console.log("dataItem==>", dataItem);
 
   const onDelete = (id) => {
     confirmAlert({

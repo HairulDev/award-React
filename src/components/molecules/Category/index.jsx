@@ -35,6 +35,7 @@ export default function Category() {
       setDataCategory(dataCategoryReducer);
     }
   }, [dataCategoryReducer]);
+  console.log("dataCategoryReducer===>>", dataCategoryReducer);
 
   const onUpdate = (id) => {
     history.replace(`/admin/createCategory/${id}`);
