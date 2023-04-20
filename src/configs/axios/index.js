@@ -8,7 +8,7 @@ const headers = {
   'Access-Control-Allow-Origin': '*',
   Authorization: `Bearer ${user?.token ?? ''}`,
   'Content-Type': 'application/json',
-  'x-api-key': env.apiKey,
+  'x-api-key': `${env.apiKey}`,
 };
 
 API.interceptors.request.use((req) => {
